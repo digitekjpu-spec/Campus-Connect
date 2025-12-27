@@ -28,16 +28,19 @@ button:hover { opacity:0.8; }
 </form>
 
 <script>
+// ضع هنا رابط الـ Web App الذي أنشأته
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyEFGJYj-IjTOyBxgyOEMbfNCvNuBTVocy6h8lOsrg-tuuT2xm_S7DtJmLpydaOPYTj9w/exec";
+
 const form = document.getElementById('complaintForm');
 form.addEventListener('submit', e => {
     e.preventDefault();
     const type = form.type.value;
     const content = form.content.value;
 
-    fetch('https://script.google.com/macros/s/AKfycbyi8zdzA0Rs-LTPSdjYb3h-KxJfnYLbbFtm-iqjZfr1xo3PpQOhTBfOWI_C0bzuoIzAxA/exec', {
-        method:'POST',
+    fetch(WEB_APP_URL, {
+        method: 'POST',
         body: JSON.stringify({ type, content }),
-        headers: { 'Content-Type':'application/json' }
+        headers: { 'Content-Type': 'application/json' }
     }).then(res => res.json()).then(data => {
         if(data.status === "success"){
             document.getElementById('msg').textContent = "تم إرسال الشكوى بنجاح!";
