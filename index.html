@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>بوابة الشكاوى والاقتراحات</title>
+<style>
+body { font-family: Arial, sans-serif; background:#0d0d0d; color:#e6ffff; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+form { background:#1a1a1a; padding:20px; border-radius:10px; width:300px; box-shadow:0 0 20px rgba(0,217,255,0.2); }
+h2 { text-align:center; color:#00d9ff; }
+select, textarea, button { width:100%; margin-top:10px; padding:8px; border-radius:5px; border:none; }
+button { background:#00d9ff; color:#fff; font-weight:bold; cursor:pointer; }
+button:hover { opacity:0.8; }
+.message { color:#0f0; text-align:center; margin-top:10px; }
+</style>
+</head>
+<body>
+<form id="complaintForm">
+<h2>إرسال شكوى/اقتراح/ملاحظة</h2>
+<select name="type" required>
+<option value="">اختر النوع</option>
+<option value="شكوى">شكوى</option>
+<option value="اقتراح">اقتراح</option>
+<option value="ملاحظة">ملاحظة</option>
+</select>
+<textarea name="content" rows="4" placeholder="اكتب نص الشكوى..." required></textarea>
+<button type="submit">إرسال</button>
+<p class="message" id="msg"></p>
+</form>
+
+<script>
+const form = document.getElementById('complaintForm');
+form.addEventListener('submit', e => {
+    e.preventDefault();
+    const type = form.type.value;
+    const content = form.content.value;
+
+    fetch('https://script.google.com/macros/s/AKfycbyi8zdzA0Rs-LTPSdjYb3h-KxJfnYLbbFtm-iqjZfr1xo3PpQOhTBfOWI_C0bzuoIzAxA/exec', {
+        method:'POST',
+        body: JSON.stringify({ type, content }),
+        headers: { 'Content-Type':'application/json' }
+    }).then(res => res.json()).then(data => {
+        if(data.status === "success"){
+            document.getElementById('msg').textContent = "تم إرسال الشكوى بنجاح!";
+            form.reset();
+        } else {
+            document.getElementById('msg').textContent = "حدث خطأ: " + data.message;
+        }
+    }).catch(err => {
+        document.getElementById('msg').textContent = "حدث خطأ. حاول لاحقاً.";
+    });
+});
+</script>
+</body>
+</html>
