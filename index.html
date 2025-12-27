@@ -38,6 +38,7 @@ button {
     font-weight:bold;
     cursor:pointer;
 }
+button:hover { opacity:0.8; }
 .message {
     color:#0f0;
     text-align:center;
@@ -71,15 +72,26 @@ const form = document.getElementById("complaintForm");
 form.addEventListener("submit", function(e){
     e.preventDefault();
 
+    // منع إرسال نص فارغ
+    if(!form.type.value || !form.content.value.trim()){
+        document.getElementById("msg").textContent = "يرجى تعبئة جميع الحقول!";
+        return;
+    }
+
     const formData = new FormData(form);
 
     fetch("https://script.google.com/macros/s/AKfycbxaGWhpgiwMOb6e9AWqOEOXfrx-dsNFo7xzdIPbqYYVBFD6mAL-mohotCp0KaAtVvGGkQ/exec", {
         method: "POST",
         body: formData
     })
-    .then(() => {
-        document.getElementById("msg").textContent = "تم الإرسال بنجاح ✅";
-        form.reset();
+    .then(res => res.text())
+    .then(data => {
+        if(data === "success"){
+            document.getElementById("msg").textContent = "تم الإرسال بنجاح ✅";
+            form.reset();
+        } else {
+            document.getElementById("msg").textContent = "حدث خطأ ❌";
+        }
     })
     .catch(() => {
         document.getElementById("msg").textContent = "حدث خطأ ❌";
