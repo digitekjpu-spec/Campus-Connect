@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>بوابة الشكاوى والاقتراحات - DIGITEK_JPU</title>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+(function(){
+  emailjs.init("jUGorAI1pl4PuMld6");
+})();
+</script>
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -53,12 +61,12 @@ footer{margin-top:3rem;text-align:center;color:rgba(255,255,255,0.15);font-size:
   <div class="card">
     <div class="header">
       <div class="logo-container">
-        <img src="logo.jpeg" alt="DIGITEK_JPU" class="logo">
+        <img src="data:image/jpeg;base64,/9j/..." alt="DIGITEK_JPU" class="logo">
         <h2 class="initiative-name">DIGITEK_JPU</h2>
         <p class="initiative-subtitle">منصة التواصل الرقمية</p>
       </div>
       <h1>تواصل معنا</h1>
-      <p class="subtitle">قدم اقتراحك أو شكواك لتسهيل التواصل بين الطلاب والإدارة.</p>
+      <p class="subtitle">نحن هنا للاستماع إليك. شاركنا رأيك بكل شفافية.</p>
     </div>
 
     <form id="complaintForm">
@@ -123,6 +131,10 @@ form.addEventListener('submit', async (e) => {
 
     const text = await response.text();
     if (text === 'success') {
+          emailjs.send(
+    "service_p32dm7e",
+    "template_wrn12q2"
+  );
       form.style.display = 'none';
       const cardContent = document.querySelector('.card');
       cardContent.innerHTML = `
@@ -158,7 +170,3 @@ function showMessage(text, type) {
 </script>
 </body>
 </html>
-
-
-
-
